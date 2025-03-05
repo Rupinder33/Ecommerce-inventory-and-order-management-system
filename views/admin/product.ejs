@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Products</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <style>
+    /* Form Styles */
+    h1,
+    h2 {
+      text-align: center;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      width: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: block;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Product List */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: white;
+      margin: 10px auto;
+      padding: 15px;
+      width: 35%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    li h3 {
+      margin: 0;
+      color: #007bff;
+    }
+
+    p {
+      margin: 5px 0;
+    }
+
+    /* Edit & Delete Buttons */
+    a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+
+  <header>
+    <h1>Welcome to the E-Commerce Platform</h1>
+    <nav>
+      <a href="/">Back to Dashboard</a>
+    </nav>
+
+  </header>
+  <h2>Add New Product</h2>
+  <form action="/products/add" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <select id="categoryId" name="categoryId">
+      <option value="1">Tech Devices</option>
+    </select>
+
+    <br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+    <br>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" step="0.01" required>
+    <br>
+    <label for="stockQuantity">Stock Quantity:</label>
+    <input type="number" id="stockQuantity" name="stockQuantity" required>
+    <br>
+    <button type="submit">Add Product</button>
+  </form>
+  <h2>Product List</h2>
+  <ul>
+    <% products.forEach(product=> { %>
+      <li>
+        <h3>
+          <%= product.name %>
+        </h3>
+        <p>
+          <%= product.description %>
+        </p>
+        <p>Price: $<%= product.price %>
+        </p>
+        <p>Stock: <%= product.stock_quantity %>
+        </p>
+        <a href="/admin/products/<%= product.product_id %>/edit">Edit</a>
+        <form action="/admin/products/<%= product.product_id %>/delete" method="POST">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+      <% }) %>
+  </ul>
+  <br><br><br>
+  <footer>
+    <p>&copy; 2023 E-Commerce Platform. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>

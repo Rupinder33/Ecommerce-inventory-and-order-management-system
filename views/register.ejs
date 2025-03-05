@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <style>
+    /* General styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: #fff;
+      text-align: center;
+    }
+
+    /* Header styles */
+    header {
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 18px;
+    }
+
+    /* register container */
+    .container {
+      max-width: 400px;
+      margin: 10px auto;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    /* Form styles */
+    form label {
+      display: block;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    form input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #ff4b2b;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff6f61;
+    }
+
+    /* Footer */
+    footer {
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+    }
+
+    p a {
+      color: rgb(238, 84, 7);
+      text-decoration: none;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+      background-color: white;
+      color: #333;
+      transition: border-color 0.3s ease;
+    }
+
+    /* Select Dropdown Focus */
+    select:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    /* Style for the label */
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #333;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Welcome to the E-Commerce Platform</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/register">Register</a>
+      <a href="/login">Login</a>
+      <a href="/products">View Products</a>
+
+    </nav>
+
+  </header>
+  <div class="container">
+    <center>
+      <h1>Register</h1>
+    </center>
+    <form action="/register" method="POST">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <br><br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <br><br>
+      <label for="role">Role:</label>
+      <select id="role" name="role" required>
+        <option value="customer">Customer</option>
+        <option value="admin" style="display: none;">Admin</option>
+      </select>
+      <br>
+      <button type="submit">Register</button>
+    </form>
+    <br><br>
+    <center>
+      <p>Already have an account? <a href="/login">Login here</a></p>
+    </center>
+  </div>
+  <footer>
+    <p>&copy; 2023 E-Commerce Platform. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>

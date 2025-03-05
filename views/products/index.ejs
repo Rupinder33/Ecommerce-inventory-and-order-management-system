@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('../css/360_F_456001627_vYt7ZFjxEQ1sshme67JAXorKRPo8gsfN.jpg') no-repeat center center/cover;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Centered Container */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f1e2f7;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styles */
+        header {
+            padding: 20px;
+            background-color: #343a40;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        /* Form Styling */
+        form {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            display: block;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #ff4b2b;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff6f61;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background: #080808;
+            color: white;
+        }
+
+        td {
+            background: #f9f9f9;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #343a40;
+            color: white;
+            font-size: 14px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: white;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Select Dropdown Focus */
+        select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Style for the label */
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Product Management</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/products">Refresh Products</a>
+            <% if (session.user) { %>
+                <a href="/logout">Logout</a>
+                <% } else { %>
+                    <a href="/login">Login</a>
+                    <% } %>
+        </nav>
+    </header>
+
+    <div class="container">
+        <% if (session.user && session.user.role==='admin' ) { %>
+            <h2>Add New Product</h2>
+            <form action="/products/addProduct" method="POST">
+                <label>Name:</label>
+                <input type="text" name="name" required>
+
+                <label>Description:</label>
+                <input type="text" name="description">
+
+                <label>Category:</label>
+                <select name="categoryId" required>
+                    <option value="1">Tech Devices</option>
+                    <option value="2">Vegetables</option>
+                    <option value="3">Fruits</option>
+                    <option value="4">Household Items</option>
+                    <option value="5">Electronics</option>
+                    <option value="6">Clothing</option>
+                </select>
+
+                <label>Price:</label>
+                <input type="number" name="price" step="0.01" required>
+
+                <label>Stock:</label>
+                <input type="number" name="stockQuantity" required>
+
+                <button type="submit">Add Product</button>
+            </form>
+            <% } %>
+
+                <h2>Existing Products</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(product=> { %>
+                            <tr>
+                                <td>
+                                    <%= product.product_id %>
+                                </td>
+                                <td>
+                                    <%= product.name %>
+                                </td>
+                                <td>$<%= Number(product.price).toFixed(2) %>
+                                </td>
+                                <td>
+                                    <%= product.stock_quantity %>
+                                </td>
+                                <td>
+                                    <% if (session.user && session.user.role==='admin' ) { %>
+                                        <form action="/products/update/<%= product.product_id %>" method="POST">
+                                            <input type="text" name="name" value="<%= product.name %>" required>
+                                            <input type="text" name="description" value="<%= product.description %>">
+                                            <input type="number" name="categoryId" value="<%= product.category_id %>"
+                                                required>
+                                            <input type="number" step="0.01" name="price"
+                                                value="<%= Number(product.price).toFixed(2) %>" required>
+                                            <input type="number" name="stockQuantity"
+                                                value="<%= product.stock_quantity %>" required>
+                                            <button type="submit">Update</button>
+                                        </form>
+                                        <form action="/products/delete/<%= product.product_id %>" method="POST">
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                        <% } else if (session.user) { %>
+                                            <form action="/cart/add" method="POST">
+                                                <input type="hidden" name="product_id"
+                                                    value="<%= product.product_id %>">
+                                                <input type="hidden" name="stockQuantity"
+                                                    value="<%= product.stock_quantity %>">
+                                                <input type="hidden" name="price" value="<%= product.price %>">
+                                                <input type="hidden" name="description"
+                                                    value="<%= product.description %>">
+                                                <input type="hidden" name="name" value="<%= product.name %>">
+                                                <button type="submit">Add to Cart</button>
+                                            </form>
+
+                                            <!-- <form action="/cart/add" method="POST">
+                                                <input type="hidden" name="product_id"
+                                                    value="<%= product.product_id %>">
+                                                <input type="hidden" name="price" value="<%= product.price %>">
+                                                <input type="hidden" name="name" value="<%= product.name %>">
+                                                <input type="number" name="quantity" min="1"
+                                                    max="<%= product.stock_quantity %>" value="1" required>
+                                                <button type="submit">Add to Cart</button>
+                                            </form> -->
+
+
+                                            <% } %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+    </div>
+
+    <h3>Shopping Cart</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Cart ID</th>
+                <th>User</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Added Time</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% shoppingcarts.forEach(cart=> { %>
+                <tr>
+                    <td>
+                        <%= cart.cart_id %>
+                    </td>
+                    <td>
+                        <%= cart.userfullname %>
+                    </td>
+                    <td>
+                        <%= cart.productname %>
+                    </td>
+                    <td>
+                        <%= cart.quantity %>
+                    </td>
+                    <td>$<%= cart.price %>
+                    </td>
+                    <td>
+                        <%= cart.added_at %>
+                    </td>
+                    <td>$<%= cart.total %>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+
+    <footer>
+        <p>&copy; 2025 E-Commerce Platform. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
